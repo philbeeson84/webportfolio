@@ -111,7 +111,6 @@
       margin: 0 auto 16px;
     }
 
-    /* Full-bleed track container */
     .ticker-outer {
       width: 100%;
       overflow: hidden;
@@ -125,7 +124,6 @@
 
     .ticker-outer:active { cursor: grabbing; }
 
-    /* fade edges */
     .ticker-outer::before,
     .ticker-outer::after {
       content: '';
@@ -150,7 +148,6 @@
       display: flex;
       align-items: stretch;
       width: max-content;
-      /* animation runs via JS so we can pause/resume on drag */
     }
 
     .ticker-card {
@@ -191,12 +188,18 @@
       justify-content: center;
       margin-bottom: 12px;
       overflow: hidden;
-      position: relative;
     }
 
     .ticker-card-thumb img {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .ticker-card:hover .ticker-card-thumb img {
+      transform: scale(1.04);
     }
 
     .ticker-card-thumb svg {
@@ -428,6 +431,13 @@
       text-transform: uppercase;
     }
 
+    .lightbox-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+    }
+
     .lightbox-body { padding: 24px 28px 28px; }
 
     .lightbox-category {
@@ -489,6 +499,7 @@
   </style>
 </head>
 <body>
+
 <div class="container">
   <!-- PAGE TITLE -->
   <header class="page-header">
@@ -506,8 +517,7 @@
   <div class="ticker-outer" id="tickerOuter">
     <div class="ticker-track" id="tickerTrack">
 
-      <!-- Cards ordered oldest → newest (latest on right) -->
-
+      <!-- Card 1 — oldest -->
       <div class="ticker-card" onclick="openLight(0)">
         <div class="ticker-card-thumb">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -517,6 +527,7 @@
         <p class="ticker-card-desc">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.</p>
       </div>
 
+      <!-- Card 2 -->
       <div class="ticker-card" onclick="openLight(1)">
         <div class="ticker-card-thumb">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -526,6 +537,7 @@
         <p class="ticker-card-desc">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.</p>
       </div>
 
+      <!-- Card 3 -->
       <div class="ticker-card" onclick="openLight(2)">
         <div class="ticker-card-thumb">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -535,9 +547,13 @@
         <p class="ticker-card-desc">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.</p>
       </div>
 
+      <!-- Card 4 — latest, has real thumbnail -->
       <div class="ticker-card is-latest" onclick="openLight(3)">
         <div class="ticker-card-thumb">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <img
+            src="https://raw.githubusercontent.com/philbeeson84/webportfolio/0082ed69ce290850f46cce6900edd0536b1498cc/pbi_lettingsanalysis1.png"
+            alt="Lettings Performance Dashboard"
+          />
         </div>
         <div class="ticker-card-category">Power BI</div>
         <div class="ticker-card-title">Lettings Performance Dashboard</div>
@@ -554,6 +570,7 @@
   <section class="experience">
     <div class="section-header"><h2>Experience</h2></div>
 
+    <!-- TOP 3 — always visible -->
     <div class="exp-item">
       <div class="exp-meta">
         <div class="exp-dates">Sep 2022 — Present</div>
@@ -599,8 +616,9 @@
       </div>
     </div>
 
-    <!-- OLDER ROLES — hidden -->
+    <!-- OLDER ROLES — hidden by default -->
     <div class="exp-hidden" id="exp-more">
+
       <div class="exp-item">
         <div class="exp-meta">
           <div class="exp-dates">Mar 2019 — Oct 2019</div>
@@ -660,12 +678,14 @@
           </div>
         </div>
       </div>
-    </div>
+
+    </div><!-- /exp-hidden -->
 
     <button class="view-more-btn" id="exp-toggle" onclick="toggleExp()">
       <span class="btn-label">View More</span>
       <span class="btn-arrow">↓</span>
     </button>
+
   </section>
 
   <!-- CLIENTS -->
@@ -690,7 +710,7 @@
 <div class="lightbox" id="lightbox" onclick="closeLight(event)">
   <div class="lightbox-inner">
     <button class="lightbox-close" onclick="closeLightDirect()">✕</button>
-    <div class="lightbox-img-placeholder"><span>No image uploaded yet</span></div>
+    <div id="lb-img-wrap"></div>
     <div class="lightbox-body">
       <div class="lightbox-category" id="lb-cat"></div>
       <div class="lightbox-title" id="lb-title"></div>
@@ -710,26 +730,30 @@
     label.textContent = more.classList.contains('open') ? 'View Less' : 'View More';
   }
 
-  /* ── LIGHTBOX ── */
+  /* ── LIGHTBOX DATA ── */
   const projects = [
     {
       category: 'Project Management',
       title: 'SAP Enterprise Rollout',
+      image: null,
       desc: 'Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.'
     },
     {
       category: 'Data Analysis',
       title: 'Parliamentary Asset Management Reporting',
+      image: null,
       desc: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.'
     },
     {
       category: 'Systems Implementation',
       title: 'Build-to-Rent Platform Rollout',
+      image: null,
       desc: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.'
     },
     {
       category: 'Power BI',
       title: 'Lettings Performance Dashboard',
+      image: 'https://raw.githubusercontent.com/philbeeson84/webportfolio/0082ed69ce290850f46cce6900edd0536b1498cc/pbi_lettingsanalysis1.png',
       desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
     }
   ];
@@ -739,6 +763,15 @@
     document.getElementById('lb-cat').textContent   = p.category;
     document.getElementById('lb-title').textContent = p.title;
     document.getElementById('lb-desc').textContent  = p.desc;
+
+    // Show image in lightbox if one exists, otherwise show placeholder
+    const wrap = document.getElementById('lb-img-wrap');
+    if (p.image) {
+      wrap.innerHTML = `<img class="lightbox-img" src="${p.image}" alt="${p.title}" />`;
+    } else {
+      wrap.innerHTML = `<div class="lightbox-img-placeholder"><span>No image uploaded yet</span></div>`;
+    }
+
     document.getElementById('lightbox').classList.add('active');
     document.body.style.overflow = 'hidden';
   }
@@ -755,44 +788,38 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightDirect(); });
 
   /* ── TICKER: AUTO-SCROLL + DRAG ── */
-  const outer  = document.getElementById('tickerOuter');
-  const track  = document.getElementById('tickerTrack');
+  const outer = document.getElementById('tickerOuter');
+  const track = document.getElementById('tickerTrack');
 
-  // Auto-scroll state
-  let scrollPos  = 0;
-  let speed      = 0.6;   // px per frame
-  let paused     = false;
-  let rafId      = null;
-
-  // Drag state
+  let scrollPos = 0;
+  let speed     = 0.6;
+  let paused    = false;
   let isDragging    = false;
   let dragStartX    = 0;
   let dragStartScroll = 0;
-  let didDrag       = false;  // distinguish click from drag
+  let didDrag       = false;
 
   function autoScroll() {
     if (!paused && !isDragging) {
       scrollPos += speed;
       const maxScroll = track.scrollWidth - outer.clientWidth;
-      if (scrollPos >= maxScroll) scrollPos = 0;   // loop back
+      if (scrollPos >= maxScroll) scrollPos = 0;
       outer.scrollLeft = scrollPos;
     }
-    rafId = requestAnimationFrame(autoScroll);
+    requestAnimationFrame(autoScroll);
   }
 
-  rafId = requestAnimationFrame(autoScroll);
+  requestAnimationFrame(autoScroll);
 
-  // Pause on hover
   outer.addEventListener('mouseenter', () => { paused = true; });
   outer.addEventListener('mouseleave', () => { if (!isDragging) paused = false; });
 
-  // Mouse drag
   outer.addEventListener('mousedown', e => {
-    isDragging    = true;
-    didDrag       = false;
-    dragStartX    = e.clientX;
+    isDragging      = true;
+    didDrag         = false;
+    dragStartX      = e.clientX;
     dragStartScroll = outer.scrollLeft;
-    paused        = true;
+    paused          = true;
     e.preventDefault();
   });
 
@@ -800,8 +827,7 @@
     if (!isDragging) return;
     const dx = e.clientX - dragStartX;
     if (Math.abs(dx) > 4) didDrag = true;
-    const newScroll = dragStartScroll - dx;
-    outer.scrollLeft = newScroll;
+    outer.scrollLeft = dragStartScroll - dx;
     scrollPos = outer.scrollLeft;
   });
 
@@ -811,7 +837,6 @@
     paused     = false;
   });
 
-  // Touch drag
   outer.addEventListener('touchstart', e => {
     isDragging      = true;
     didDrag         = false;
@@ -833,7 +858,6 @@
     paused     = false;
   });
 
-  // Prevent click-open on cards if user was dragging
   outer.addEventListener('click', e => {
     if (didDrag) { e.stopPropagation(); didDrag = false; }
   }, true);
