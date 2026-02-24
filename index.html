@@ -16,8 +16,8 @@
       --steel:           #7e8a94;
       --silver:          #bdc4ca;
       --white:           #eceef0;
-      --accent:          #5b8fa8;
-      --accent-dim:      rgba(91,143,168,0.10);
+      --accent:          #FFD000;
+      --accent-dim:      rgba(255,208,0,0.10);
     }
 
     body {
@@ -39,18 +39,19 @@
     }
 
     .container {
-      max-width: 960px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 28px;
       position: relative;
       z-index: 1;
     }
 
-    /* ── PAGE TITLE ── */
+    /* ── PAGE HEADER ── */
     .page-header {
-      margin-bottom: 64px;
+      margin-bottom: 52px;
       padding-bottom: 32px;
       border-bottom: 1px solid var(--gunmetal-border);
+      animation: fadeUp 0.45s ease 0.05s both;
     }
 
     .page-header h1 {
@@ -76,7 +77,7 @@
       display: flex;
       align-items: center;
       gap: 16px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .section-header h2 {
@@ -96,119 +97,160 @@
       background: var(--gunmetal-border);
     }
 
+    .section-header a.view-all {
+      font-size: 9.5px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--steel);
+      text-decoration: none;
+      white-space: nowrap;
+      border: 1px solid var(--gunmetal-border);
+      padding: 4px 10px;
+      border-radius: 2px;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .section-header a.view-all:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
     /* ══════════════════════════════════════
-       PORTFOLIO TICKER
+       BENTO GRID
     ══════════════════════════════════════ */
-    .ticker-section {
-      margin-bottom: 64px;
-      position: relative;
-      z-index: 1;
+    .bento {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 16px;
+      margin-bottom: 16px;
+      animation: fadeUp 0.45s ease 0.10s both;
     }
 
-    .ticker-section .section-header {
-      padding: 0 24px;
-      max-width: 960px;
-      margin: 0 auto 16px;
-    }
-
-    .ticker-outer {
-      width: 100%;
-      overflow: hidden;
-      position: relative;
-      border-top: 1px solid var(--gunmetal-border);
-      border-bottom: 1px solid var(--gunmetal-border);
+    .block {
       background: var(--gunmetal-mid);
-      cursor: grab;
-      user-select: none;
+      border: 1px solid var(--gunmetal-border);
+      border-radius: 3px;
+      padding: 24px;
     }
 
-    .ticker-outer:active { cursor: grabbing; }
-
-    .ticker-outer::before,
-    .ticker-outer::after {
-      content: '';
-      position: absolute;
-      top: 0; bottom: 0;
-      width: 80px;
-      z-index: 2;
-      pointer-events: none;
+    /* Portfolio spans full width */
+    .block-portfolio {
+      grid-column: 1 / -1;
     }
 
-    .ticker-outer::before {
-      left: 0;
-      background: linear-gradient(to right, var(--gunmetal-mid), transparent);
+    /* Experience left, clients right */
+    .block-experience { grid-column: 1; }
+    .block-clients    { grid-column: 2; }
+
+    /* ══════════════════════════════════════
+       PORTFOLIO BLOCK — internal split
+    ══════════════════════════════════════ */
+    .portfolio-inner {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+      align-items: start;
     }
 
-    .ticker-outer::after {
-      right: 0;
-      background: linear-gradient(to left, var(--gunmetal-mid), transparent);
-    }
-
-    .ticker-track {
+    /* Article list */
+    .article-list {
       display: flex;
-      align-items: stretch;
-      width: max-content;
+      flex-direction: column;
+      gap: 0;
     }
 
-    .ticker-card {
-      flex-shrink: 0;
-      width: 240px;
-      padding: 18px 20px;
-      border-right: 1px solid var(--gunmetal-border);
-      transition: background 0.2s;
-      position: relative;
-    }
-
-    .ticker-card:hover {
-      background: var(--gunmetal-light);
+    .article-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 8px;
+      border-bottom: 1px solid var(--gunmetal-border);
       cursor: pointer;
+      transition: background 0.15s;
+      margin: 0 -8px;
+      border-radius: 2px;
     }
 
-    .ticker-card.is-latest::after {
-      content: 'Latest';
-      position: absolute;
-      top: 10px; right: 10px;
-      font-size: 8px;
-      letter-spacing: 1.5px;
+    .article-row:first-child { border-top: 1px solid var(--gunmetal-border); }
+
+    .article-row:hover { background: var(--gunmetal-light); }
+
+    .article-row-info {}
+
+    .article-row-category {
+      font-size: 9px;
+      letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--accent);
-      border: 1px solid var(--accent);
-      padding: 1px 5px;
-      border-radius: 2px;
-      opacity: 0.7;
+      margin-bottom: 3px;
     }
 
-    .ticker-card-thumb {
-      width: 100%;
-      aspect-ratio: 16/9;
+    .article-row-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.3;
+    }
+
+
+
+    /* Thumbnail panel */
+    .portfolio-thumb-panel {
       background: var(--gunmetal-light);
       border: 1px solid var(--gunmetal-border);
+      border-radius: 2px;
+      overflow: hidden;
+      position: sticky;
+      top: 24px;
+    }
+
+    .portfolio-thumb-img {
+      width: 100%;
+      aspect-ratio: 16/9;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 12px;
+      background: var(--gunmetal-deep);
       overflow: hidden;
+      position: relative;
     }
 
-    .ticker-card-thumb img {
+    .portfolio-thumb-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.4s ease;
+      transition: transform 0.4s ease, opacity 0.3s ease;
     }
 
-    .ticker-card:hover .ticker-card-thumb img {
-      transform: scale(1.04);
-    }
-
-    .ticker-card-thumb svg {
-      width: 22px; height: 22px;
+    .portfolio-thumb-img .placeholder-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
       color: var(--gunmetal-border);
+    }
+
+    .portfolio-thumb-img .placeholder-icon svg {
+      width: 28px; height: 28px;
+    }
+
+    .portfolio-thumb-img .placeholder-icon span {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--steel);
       opacity: 0.5;
     }
 
-    .ticker-card-category {
+    .portfolio-thumb-meta {
+      padding: 14px 16px;
+      border-top: 1px solid var(--gunmetal-border);
+    }
+
+    .portfolio-thumb-meta .thumb-cat {
       font-size: 9px;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -216,170 +258,97 @@
       margin-bottom: 4px;
     }
 
-    .ticker-card-title {
-      font-size: 12px;
+    .portfolio-thumb-meta .thumb-title {
+      font-size: 13px;
       font-weight: 500;
       color: var(--white);
-      margin-bottom: 6px;
-      line-height: 1.35;
+      line-height: 1.3;
     }
 
-    .ticker-card-desc {
+    .portfolio-thumb-meta .thumb-empty {
       font-size: 11px;
       color: var(--steel);
-      line-height: 1.65;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* ── EXPERIENCE ── */
-    .experience { margin-bottom: 72px; }
-
-    .exp-item {
-      display: grid;
-      grid-template-columns: 148px 1fr;
-      gap: 0 28px;
-      padding: 18px 0;
-      border-bottom: 1px solid var(--gunmetal-border);
-      transition: background 0.2s, padding 0.2s, margin 0.2s;
-      border-radius: 2px;
-    }
-
-    .exp-item:last-child { border-bottom: none; }
-
-    .exp-item:hover {
-      background: var(--accent-dim);
-      padding: 18px 14px;
-      margin: 0 -14px;
-      border-bottom-color: transparent;
-    }
-
-    .exp-dates {
-      font-size: 10.5px;
-      letter-spacing: 0.8px;
-      color: var(--steel);
-      text-transform: uppercase;
-      padding-top: 3px;
-      line-height: 1.5;
-    }
-
-    .exp-duration {
-      font-size: 10.5px;
-      color: var(--gunmetal-border);
-      margin-top: 4px;
       font-style: italic;
     }
 
-    .exp-role {
-      font-size: 13.5px;
+    /* ══════════════════════════════════════
+       EXPERIENCE BLOCK
+    ══════════════════════════════════════ */
+    .exp-summary-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .exp-summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--gunmetal-border);
+      transition: background 0.15s;
+      margin: 0 -8px;
+      padding-left: 8px;
+      padding-right: 8px;
+      border-radius: 2px;
+    }
+
+    .exp-summary-item:first-child { border-top: 1px solid var(--gunmetal-border); }
+    .exp-summary-item:hover { background: var(--gunmetal-light); }
+
+    .exp-sum-left {}
+
+    .exp-sum-role {
+      font-size: 13px;
       font-weight: 500;
       color: var(--white);
       margin-bottom: 2px;
     }
 
-    .exp-company {
-      font-size: 11px;
-      color: var(--accent);
+    .exp-sum-company {
+      font-size: 10px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      color: var(--accent);
       font-weight: 400;
     }
 
-    .exp-desc {
-      font-size: 12px;
+    .exp-sum-dates {
+      font-size: 10px;
       color: var(--steel);
-      line-height: 1.75;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    .exp-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 9px;
-    }
-
-    .tag {
-      font-size: 9.5px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--steel);
-      border: 1px solid var(--gunmetal-border);
-      padding: 2px 7px;
-      border-radius: 2px;
-    }
-
-    /* ── VIEW MORE ── */
-    .exp-hidden {
-      overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      transition: max-height 0.5s ease, opacity 0.4s ease;
-    }
-
-    .exp-hidden.open {
-      max-height: 2000px;
-      opacity: 1;
-    }
-
-    .view-more-btn {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 20px;
-      background: none;
-      border: 1px solid var(--gunmetal-border);
-      color: var(--steel);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 10.5px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      padding: 9px 18px;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-      border-radius: 2px;
-    }
-
-    .view-more-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--accent-dim);
-    }
-
-    .view-more-btn .btn-arrow {
-      display: inline-block;
-      transition: transform 0.3s ease;
-    }
-
-    .view-more-btn.open .btn-arrow { transform: rotate(180deg); }
-
-    /* ── CLIENTS ── */
-    .clients { margin-bottom: 0; }
-
+    /* ══════════════════════════════════════
+       CLIENTS BLOCK
+    ══════════════════════════════════════ */
     .logo-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--gunmetal-border);
       border: 1px solid var(--gunmetal-border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 4px;
     }
 
     .logo-cell {
-      padding: 32px 28px;
+      padding: 28px 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--gunmetal-mid);
-      border-right: 1px solid var(--gunmetal-border);
+      background: var(--gunmetal-light);
       transition: background 0.25s;
     }
 
-    .logo-cell:last-child { border-right: none; }
-    .logo-cell:hover { background: var(--gunmetal-light); }
+    .logo-cell:hover { background: var(--gunmetal-mid); }
 
     .logo-cell img {
-      max-width: 120px;
-      max-height: 48px;
+      max-width: 100px;
+      max-height: 40px;
       width: auto; height: auto;
       object-fit: contain;
       filter: grayscale(100%) brightness(0.5) invert(1);
@@ -392,475 +361,217 @@
       filter: grayscale(100%) brightness(0.68) invert(1);
     }
 
-    /* ── LIGHTBOX ── */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: rgba(15,17,19,0.92);
-      backdrop-filter: blur(6px);
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .lightbox.active { display: flex; }
-
-    .lightbox-inner {
-      background: var(--gunmetal-mid);
-      border: 1px solid var(--gunmetal-border);
-      max-width: 720px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-      animation: fadeUp 0.3s ease both;
-    }
-
-    .lightbox-img-placeholder {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: var(--gunmetal-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gunmetal-border);
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .lightbox-img {
-      width: 100%;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-      display: block;
-    }
-
-    .lightbox-body { padding: 24px 28px 28px; }
-
-    .lightbox-category {
-      font-size: 10px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .lightbox-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 26px;
-      letter-spacing: 3px;
-      color: var(--white);
-      margin-bottom: 14px;
-    }
-
-    .lightbox-desc {
-      font-size: 13px;
-      color: var(--steel);
-      line-height: 1.8;
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 12px; right: 14px;
-      background: none;
-      border: none;
-      color: var(--steel);
-      font-size: 20px;
-      cursor: pointer;
-      transition: color 0.2s;
-      z-index: 10;
-    }
-
-    .lightbox-close:hover { color: var(--white); }
-
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .page-header    { animation: fadeUp 0.45s ease 0.05s both; }
-    .ticker-section { animation: fadeUp 0.45s ease 0.10s both; }
-    .experience     { animation: fadeUp 0.45s ease 0.18s both; }
-    .clients        { animation: fadeUp 0.45s ease 0.25s both; }
+    .block-portfolio  { animation: fadeUp 0.45s ease 0.15s both; }
+    .block-experience { animation: fadeUp 0.45s ease 0.22s both; }
+    .block-clients    { animation: fadeUp 0.45s ease 0.27s both; }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      .exp-item { grid-template-columns: 1fr; }
-      .exp-dates { margin-bottom: 6px; }
+    @media (max-width: 700px) {
+      .bento { grid-template-columns: 1fr; }
+      .block-portfolio, .block-experience, .block-clients { grid-column: 1; }
+      .portfolio-inner { grid-template-columns: 1fr; }
+      .portfolio-thumb-panel { position: static; }
       .logo-grid { grid-template-columns: 1fr; }
-      .logo-cell { border-right: none; border-bottom: 1px solid var(--gunmetal-border); }
-      .logo-cell:last-child { border-bottom: none; }
-      .ticker-card { width: 200px; }
     }
   </style>
 </head>
 <body>
 
 <div class="container">
+
   <!-- PAGE TITLE -->
   <header class="page-header">
     <h1>Phil Beeson</h1>
     <p class="tagline">Technical, Data &amp; Business Analyst &nbsp;·&nbsp; Power BI &amp; Excel Enthusiast &nbsp;·&nbsp; Your AI-Supported Data &amp; Systems Swiss Army Knife</p>
   </header>
-</div>
 
-<!-- PORTFOLIO TICKER — full bleed -->
-<section class="ticker-section">
-  <div class="section-header container">
-    <h2>Portfolio</h2>
-  </div>
+  <!-- BENTO GRID -->
+  <div class="bento">
 
-  <div class="ticker-outer" id="tickerOuter">
-    <div class="ticker-track" id="tickerTrack">
-
-      <!-- Card 1 — oldest -->
-      <div class="ticker-card" onclick="openLight(0)">
-        <div class="ticker-card-thumb">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        </div>
-        <div class="ticker-card-category">Project Management</div>
-        <div class="ticker-card-title">SAP Enterprise Rollout</div>
-        <p class="ticker-card-desc">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.</p>
+    <!-- PORTFOLIO BLOCK — full width -->
+    <div class="block block-portfolio">
+      <div class="section-header">
+        <h2>Portfolio</h2>
+        <a class="view-all" href="portfolio.html">View all →</a>
       </div>
+      <div class="portfolio-inner">
 
-      <!-- Card 2 -->
-      <div class="ticker-card" onclick="openLight(1)">
-        <div class="ticker-card-thumb">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        </div>
-        <div class="ticker-card-category">Data Analysis</div>
-        <div class="ticker-card-title">Parliamentary Asset Reporting</div>
-        <p class="ticker-card-desc">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.</p>
-      </div>
+        <!-- Left: article list -->
+        <div class="article-list">
 
-      <!-- Card 3 -->
-      <div class="ticker-card" onclick="openLight(2)">
-        <div class="ticker-card-thumb">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        </div>
-        <div class="ticker-card-category">Systems Implementation</div>
-        <div class="ticker-card-title">Build-to-Rent Platform Rollout</div>
-        <p class="ticker-card-desc">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.</p>
-      </div>
+          <div class="article-row">
+            <div class="article-row-info">
+              <div class="article-row-category">Project Management</div>
+              <div class="article-row-title">SAP Enterprise Rollout</div>
+            </div>
+          </div>
 
-      <!-- Card 4 -->
-      <div class="ticker-card is-latest" onclick="openLight(3)">
-        <div class="ticker-card-thumb">
-          <img
-            src="https://raw.githubusercontent.com/philbeeson84/webportfolio/main/pbi_lettingsanalysis1.png"
-            alt="Lettings Performance Dashboard"
-          />
-        </div>
-        <div class="ticker-card-category">Power BI</div>
-        <div class="ticker-card-title">Lettings Performance Dashboard</div>
-        <p class="ticker-card-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-      </div>
+          <div class="article-row">
+            <div class="article-row-info">
+              <div class="article-row-category">Data Analysis</div>
+              <div class="article-row-title">Parliamentary Asset Management Reporting</div>
+            </div>
+          </div>
 
-    </div><!-- /ticker-track -->
-  </div><!-- /ticker-outer -->
-</section>
+          <div class="article-row">
+            <div class="article-row-info">
+              <div class="article-row-category">Systems Implementation</div>
+              <div class="article-row-title">Build-to-Rent Platform Rollout</div>
+            </div>
+          </div>
 
-<div class="container">
+          <div class="article-row">
+            <div class="article-row-info">
+              <div class="article-row-category">Power BI</div>
+              <div class="article-row-title">Lettings Performance Dashboard</div>
+            </div>
+          </div>
 
-  <!-- EXPERIENCE -->
-  <section class="experience">
-    <div class="section-header"><h2>Experience</h2></div>
+        </div><!-- /article-list -->
 
-    <!-- TOP 3 — always visible -->
-    <div class="exp-item">
-      <div class="exp-meta">
-        <div class="exp-dates">Sep 2022 — Present</div>
-        <div class="exp-duration">3 yrs 6 mos</div>
-      </div>
-      <div class="exp-body">
-        <div class="exp-role">Business Systems Analyst</div>
-        <div class="exp-company">Kinleigh Folkard &amp; Hayward</div>
-        <p class="exp-desc">Implemented and project managed three new systems across the Lettings, Build-to-Rent, and Block Management divisions. Product managed build-to-rent products. Lead Power BI developer and Excel specialist.</p>
-        <div class="exp-tags">
-          <span class="tag">Power BI</span><span class="tag">M Query</span><span class="tag">Excel</span><span class="tag">Project Management</span><span class="tag">Systems Analysis</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-meta">
-        <div class="exp-dates">Feb 2020 — Sep 2022</div>
-        <div class="exp-duration">2 yrs 8 mos</div>
-      </div>
-      <div class="exp-body">
-        <div class="exp-role">Senior Implementation Analyst</div>
-        <div class="exp-company">Parliamentary Digital Service</div>
-        <p class="exp-desc">Led the technical support team delivering configuration, change request, and lifecycle upgrade processes across multiple project workstreams and BAU. Used JIRA, Cherwell, AutoDesk, Revit, and VS Code for HTML, CSS, and XML changes.</p>
-        <div class="exp-tags">
-          <span class="tag">JIRA</span><span class="tag">Data Visualisation</span><span class="tag">HTML / CSS / XML</span><span class="tag">Change Management</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-meta">
-        <div class="exp-dates">Nov 2019 — Feb 2020</div>
-        <div class="exp-duration">4 mos</div>
-      </div>
-      <div class="exp-body">
-        <div class="exp-role">Business Implementation Analyst</div>
-        <div class="exp-company">Eptura</div>
-        <p class="exp-desc">Delivered software implementation services streamlining business processes for buildings, people, and assets in the real estate and facilities management sector.</p>
-        <div class="exp-tags">
-          <span class="tag">Microsoft Office</span><span class="tag">System Configuration</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- OLDER ROLES — hidden by default -->
-    <div class="exp-hidden" id="exp-more">
-
-      <div class="exp-item">
-        <div class="exp-meta">
-          <div class="exp-dates">Mar 2019 — Oct 2019</div>
-          <div class="exp-duration">8 mos</div>
-        </div>
-        <div class="exp-body">
-          <div class="exp-role">Project Manager</div>
-          <div class="exp-company">ISB Global</div>
-          <p class="exp-desc">SAP implementation and enterprise system project management, delivering rollouts for clients across the UK.</p>
-          <div class="exp-tags">
-            <span class="tag">SAP</span><span class="tag">Project Management</span>
+        <!-- Right: thumbnail panel -->
+        <div class="portfolio-thumb-panel">
+          <div class="portfolio-thumb-img" id="thumbImgArea">
+            <img id="thumbImg"
+              src="https://raw.githubusercontent.com/philbeeson84/webportfolio/0082ed69ce290850f46cce6900edd0536b1498cc/pbi_lettingsanalysis1.png"
+              alt="Lettings Performance Dashboard"
+            />
+          </div>
+          <div class="portfolio-thumb-meta" id="thumbMeta">
+            <div class="thumb-cat" id="thumbCat">Power BI</div>
+            <div class="thumb-title" id="thumbTitle">Lettings Performance Dashboard</div>
           </div>
         </div>
-      </div>
 
-      <div class="exp-item">
-        <div class="exp-meta">
-          <div class="exp-dates">Mar 2018 — Mar 2019</div>
-          <div class="exp-duration">1 yr 1 mo</div>
-        </div>
-        <div class="exp-body">
-          <div class="exp-role">Engagement Manager</div>
-          <div class="exp-company">Parliamentary Digital Service</div>
-          <p class="exp-desc">Managed stakeholder engagement, training delivery, and change management programmes across the organisation.</p>
-          <div class="exp-tags">
-            <span class="tag">Training</span><span class="tag">Change Management</span><span class="tag">Stakeholder Engagement</span>
+      </div><!-- /portfolio-inner -->
+    </div><!-- /block-portfolio -->
+
+    <!-- EXPERIENCE BLOCK -->
+    <div class="block block-experience">
+      <div class="section-header">
+        <h2>Experience</h2>
+        <a class="view-all" href="experience.html">View detail →</a>
+      </div>
+      <div class="exp-summary-list">
+
+        <div class="exp-summary-item">
+          <div class="exp-sum-left">
+            <div class="exp-sum-role">Business Systems Analyst</div>
+            <div class="exp-sum-company">Kinleigh Folkard &amp; Hayward</div>
           </div>
+          <div class="exp-sum-dates">Sep 2022 — Present</div>
         </div>
-      </div>
 
-      <div class="exp-item">
-        <div class="exp-meta">
-          <div class="exp-dates">Mar 2016 — Mar 2018</div>
-          <div class="exp-duration">2 yrs</div>
-        </div>
-        <div class="exp-body">
-          <div class="exp-role">Implementation &amp; Project Manager</div>
-          <div class="exp-company">Sainsbury's</div>
-          <p class="exp-desc">Led Kronos workforce management implementations across field-based store locations, covering payroll administration, training delivery, and new store setup.</p>
-          <div class="exp-tags">
-            <span class="tag">Kronos WFM</span><span class="tag">Payroll</span><span class="tag">Training</span><span class="tag">New Store Setup</span>
+        <div class="exp-summary-item">
+          <div class="exp-sum-left">
+            <div class="exp-sum-role">Senior Implementation Analyst</div>
+            <div class="exp-sum-company">Parliamentary Digital Service</div>
           </div>
+          <div class="exp-sum-dates">Feb 2020 — Sep 2022</div>
         </div>
-      </div>
 
-      <div class="exp-item">
-        <div class="exp-meta">
-          <div class="exp-dates">Aug 2015 — Mar 2016</div>
-          <div class="exp-duration">8 mos</div>
-        </div>
-        <div class="exp-body">
-          <div class="exp-role">Online Manager</div>
-          <div class="exp-company">DAI</div>
-          <p class="exp-desc">Managed online operations for this independent British software solutions delivery company, based at Lewes Road, Brighton.</p>
-          <div class="exp-tags">
-            <span class="tag">Operations</span><span class="tag">Software Delivery</span>
+        <div class="exp-summary-item">
+          <div class="exp-sum-left">
+            <div class="exp-sum-role">Business Implementation Analyst</div>
+            <div class="exp-sum-company">Eptura</div>
           </div>
+          <div class="exp-sum-dates">Nov 2019 — Feb 2020</div>
+        </div>
+
+        <div class="exp-summary-item">
+          <div class="exp-sum-left">
+            <div class="exp-sum-role">Project Manager</div>
+            <div class="exp-sum-company">ISB Global</div>
+          </div>
+          <div class="exp-sum-dates">Mar 2019 — Oct 2019</div>
+        </div>
+
+        <div class="exp-summary-item">
+          <div class="exp-sum-left">
+            <div class="exp-sum-role">Engagement Manager</div>
+            <div class="exp-sum-company">Parliamentary Digital Service</div>
+          </div>
+          <div class="exp-sum-dates">Mar 2018 — Mar 2019</div>
+        </div>
+
+        <div class="exp-summary-item">
+          <div class="exp-sum-left">
+            <div class="exp-sum-role">Implementation &amp; Project Manager</div>
+            <div class="exp-sum-company">Sainsbury's</div>
+          </div>
+          <div class="exp-sum-dates">Mar 2016 — Mar 2018</div>
+        </div>
+
+        <div class="exp-summary-item">
+          <div class="exp-sum-left">
+            <div class="exp-sum-role">Online Manager</div>
+            <div class="exp-sum-company">DAI</div>
+          </div>
+          <div class="exp-sum-dates">Aug 2015 — Mar 2016</div>
+        </div>
+
+      </div>
+    </div><!-- /block-experience -->
+
+    <!-- CLIENTS BLOCK -->
+    <div class="block block-clients">
+      <div class="section-header">
+        <h2>Who I Have Worked With</h2>
+      </div>
+      <div class="logo-grid">
+        <div class="logo-cell">
+          <img src="https://philbeeson.files.wordpress.com/2021/07/digital-service-primary-rgb-1500x526-1.png?w=1024" alt="Parliamentary Digital Service" />
+        </div>
+        <div class="logo-cell">
+          <img src="https://philbeeson.files.wordpress.com/2021/07/sainsburys-logo.png?w=1024" alt="Sainsbury's" />
+        </div>
+        <div class="logo-cell">
+          <img src="https://philbeeson.files.wordpress.com/2021/07/isb-global-logo.png?w=437" alt="ISB Global" />
         </div>
       </div>
+    </div><!-- /block-clients -->
 
-    </div><!-- /exp-hidden -->
-
-    <button class="view-more-btn" id="exp-toggle" onclick="toggleExp()">
-      <span class="btn-label">View More</span>
-      <span class="btn-arrow">↓</span>
-    </button>
-
-  </section>
-
-  <!-- CLIENTS -->
-  <section class="clients">
-    <div class="section-header"><h2>Who I Have Worked With</h2></div>
-    <div class="logo-grid">
-      <div class="logo-cell">
-        <img src="https://philbeeson.files.wordpress.com/2021/07/digital-service-primary-rgb-1500x526-1.png?w=1024" alt="Parliamentary Digital Service" />
-      </div>
-      <div class="logo-cell">
-        <img src="https://philbeeson.files.wordpress.com/2021/07/sainsburys-logo.png?w=1024" alt="Sainsbury's" />
-      </div>
-      <div class="logo-cell">
-        <img src="https://philbeeson.files.wordpress.com/2021/07/isb-global-logo.png?w=437" alt="ISB Global" />
-      </div>
-    </div>
-  </section>
+  </div><!-- /bento -->
 
 </div><!-- /container -->
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLight(event)">
-  <div class="lightbox-inner">
-    <button class="lightbox-close" onclick="closeLightDirect()">✕</button>
-    <div id="lb-img-wrap"></div>
-    <div class="lightbox-body">
-      <div class="lightbox-category" id="lb-cat"></div>
-      <div class="lightbox-title" id="lb-title"></div>
-      <p class="lightbox-desc" id="lb-desc"></p>
-    </div>
-  </div>
-</div>
-
 <script>
-  /* ── EXPERIENCE TOGGLE ── */
-  function toggleExp() {
-    const more  = document.getElementById('exp-more');
-    const btn   = document.getElementById('exp-toggle');
-    const label = btn.querySelector('.btn-label');
-    more.classList.toggle('open');
-    btn.classList.toggle('open');
-    label.textContent = more.classList.contains('open') ? 'View Less' : 'View More';
-  }
-
-  /* ── LIGHTBOX DATA ── */
-  const projects = [
-    {
-      category: 'Project Management',
-      title: 'SAP Enterprise Rollout',
-      image: null,
-      desc: 'Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.'
-    },
-    {
-      category: 'Data Analysis',
-      title: 'Parliamentary Asset Management Reporting',
-      image: null,
-      desc: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.'
-    },
-    {
-      category: 'Systems Implementation',
-      title: 'Build-to-Rent Platform Rollout',
-      image: null,
-      desc: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.'
-    },
-    {
-      category: 'Power BI',
-      title: 'Lettings Performance Dashboard',
+  // Thumbnail is selected via the isThumb flag in the data — no UI interaction needed.
+  const articles = [
+    { category: 'Project Management',     title: 'SAP Enterprise Rollout',                   image: null,     isThumb: false },
+    { category: 'Data Analysis',          title: 'Parliamentary Asset Management Reporting', image: null,     isThumb: false },
+    { category: 'Systems Implementation', title: 'Build-to-Rent Platform Rollout',           image: null,     isThumb: false },
+    { category: 'Power BI',               title: 'Lettings Performance Dashboard',
       image: 'https://raw.githubusercontent.com/philbeeson84/webportfolio/0082ed69ce290850f46cce6900edd0536b1498cc/pbi_lettingsanalysis1.png',
-      desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-    }
+      isThumb: true }
   ];
 
-  function openLight(i) {
-    const p = projects[i];
-    document.getElementById('lb-cat').textContent   = p.category;
-    document.getElementById('lb-title').textContent = p.title;
-    document.getElementById('lb-desc').textContent  = p.desc;
+  function renderThumb() {
+    const thumbArticle = articles.find(a => a.isThumb) || null;
+    const area = document.getElementById('thumbImgArea');
+    const meta = document.getElementById('thumbMeta');
 
-    // Show image in lightbox if one exists, otherwise show placeholder
-    const wrap = document.getElementById('lb-img-wrap');
-    if (p.image) {
-      wrap.innerHTML = `<img class="lightbox-img" src="${p.image}" alt="${p.title}" />`;
+    if (!thumbArticle) {
+      area.innerHTML = `<div class="placeholder-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span>No thumbnail selected</span></div>`;
+      meta.innerHTML = '<div class="thumb-empty">No thumbnail set</div>';
+      return;
+    }
+
+    if (thumbArticle.image) {
+      area.innerHTML = `<img src="${thumbArticle.image}" alt="${thumbArticle.title}" style="width:100%;height:100%;object-fit:cover;display:block;"/>`;
     } else {
-      wrap.innerHTML = `<div class="lightbox-img-placeholder"><span>No image uploaded yet</span></div>`;
+      area.innerHTML = `<div class="placeholder-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span>No image uploaded yet</span></div>`;
     }
-
-    document.getElementById('lightbox').classList.add('active');
-    document.body.style.overflow = 'hidden';
+    meta.innerHTML = `<div class="thumb-cat">${thumbArticle.category}</div><div class="thumb-title">${thumbArticle.title}</div>`;
   }
 
-  function closeLight(e) {
-    if (e.target === document.getElementById('lightbox')) closeLightDirect();
-  }
-
-  function closeLightDirect() {
-    document.getElementById('lightbox').classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightDirect(); });
-
-  /* ── TICKER: AUTO-SCROLL + DRAG ── */
-  const outer = document.getElementById('tickerOuter');
-  const track = document.getElementById('tickerTrack');
-
-  let scrollPos = 0;
-  let speed     = 0.6;
-  let paused    = false;
-  let isDragging    = false;
-  let dragStartX    = 0;
-  let dragStartScroll = 0;
-  let didDrag       = false;
-
-  function autoScroll() {
-    if (!paused && !isDragging) {
-      scrollPos += speed;
-      const maxScroll = track.scrollWidth - outer.clientWidth;
-      if (scrollPos >= maxScroll) scrollPos = 0;
-      outer.scrollLeft = scrollPos;
-    }
-    requestAnimationFrame(autoScroll);
-  }
-
-  requestAnimationFrame(autoScroll);
-
-  outer.addEventListener('mouseenter', () => { paused = true; });
-  outer.addEventListener('mouseleave', () => { if (!isDragging) paused = false; });
-
-  outer.addEventListener('mousedown', e => {
-    isDragging      = true;
-    didDrag         = false;
-    dragStartX      = e.clientX;
-    dragStartScroll = outer.scrollLeft;
-    paused          = true;
-    e.preventDefault();
-  });
-
-  window.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    const dx = e.clientX - dragStartX;
-    if (Math.abs(dx) > 4) didDrag = true;
-    outer.scrollLeft = dragStartScroll - dx;
-    scrollPos = outer.scrollLeft;
-  });
-
-  window.addEventListener('mouseup', () => {
-    if (!isDragging) return;
-    isDragging = false;
-    paused     = false;
-  });
-
-  outer.addEventListener('touchstart', e => {
-    isDragging      = true;
-    didDrag         = false;
-    dragStartX      = e.touches[0].clientX;
-    dragStartScroll = outer.scrollLeft;
-    paused          = true;
-  }, { passive: true });
-
-  outer.addEventListener('touchmove', e => {
-    if (!isDragging) return;
-    const dx = e.touches[0].clientX - dragStartX;
-    if (Math.abs(dx) > 4) didDrag = true;
-    outer.scrollLeft = dragStartScroll - dx;
-    scrollPos = outer.scrollLeft;
-  }, { passive: true });
-
-  outer.addEventListener('touchend', () => {
-    isDragging = false;
-    paused     = false;
-  });
-
-  outer.addEventListener('click', e => {
-    if (didDrag) { e.stopPropagation(); didDrag = false; }
-  }, true);
+  renderThumb();
 </script>
 </body>
 </html>
